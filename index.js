@@ -40,7 +40,7 @@ export default class DivarHackathon extends Component {
     super(props);
 
     this.state = {
-      imposters: [],
+      earths: [],
       killedList: [],
       status: gameStatus.RUNNING,
       hmMatrix: VrHeadModel.getHeadMatrix()
@@ -54,7 +54,7 @@ export default class DivarHackathon extends Component {
   }
 
   initGame() {
-    this.setState({ imposters: this.generateImposters() });
+    this.setState({ earths: this.generateEarths() });
     this.requestID = requestAnimationFrame(this.move)
     Environment.setBackgroundImage(asset('360_world.jpg'));
   }
@@ -66,13 +66,13 @@ export default class DivarHackathon extends Component {
     return distance * (Math.floor(Math.random() * 2) ? 1 : -1);
   }
 
-  generateImposters() {
-     const imposters = [];
+  generateEarths() {
+     const earths = [];
      
      for (let index = 0; index < imspostersCount; index++) {
-       imposters.push({
-        objUrl: asset('amu.obj'),
-        mtlUrl: asset('amu.mtl'),
+       earths.push({
+        objUrl: asset('earth.obj'),
+        mtlUrl: asset('earth.mtl'),
         translateX: this.getRandomDistance(),
         translateY: -5,
         translateZ: this.getRandomDistance(),
@@ -84,15 +84,15 @@ export default class DivarHackathon extends Component {
       });
      }
 
-     return imposters;
+     return earths;
   }
 
   move = () => {
-    const { imposters, status } = this.state;
+    const { earths, status } = this.state;
     const now = Date.now();
     const diff = Date.now() - this.lastUpdate;
     
-    imposters.forEach(obj => {
+    earths.forEach(obj => {
       const r = Math.abs(obj.translateZ) / Math.abs(obj.translateX);
 
       if (obj.translateX > nearestDistance) {
@@ -123,7 +123,7 @@ export default class DivarHackathon extends Component {
     });
 
     this.lastUpdate = now;
-    this.setState({ imposters });
+    this.setState({ earths });
     this.requestID = requestAnimationFrame(this.move)
   }
 
@@ -162,10 +162,10 @@ export default class DivarHackathon extends Component {
     Location.replace('/index.html')
   }
 
-  renderImposters() {
+  renderEarths() {
     const { killedList } = this.state;
 
-    return this.state.imposters.map(({
+    return this.state.earths.map(({
       objUrl,
       mtlUrl,
       color,
@@ -249,7 +249,7 @@ export default class DivarHackathon extends Component {
   render() {
     return (
       <View>
-        {this.renderImposters()}
+        {this.renderEarths()}
         {this.renderGameComplatedBox()}
       </View>
     )
